@@ -1,0 +1,199 @@
+﻿<!doctype html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f8f9ff" media="(prefers-color-scheme: light)"/>
+    <meta name="theme-color" content="#111318" media="(prefers-color-scheme: dark)"/>
+    <meta name="description" content="面向 VRChat 资源管理和 R2 上传工作流的数据中心。" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/pwa-icon-192.png"/>
+    <link rel="manifest" href="/manifest.webmanifest"/>
+    <title>VRChat Data Hub</title>
+    <script>
+        const rootElement = document.documentElement;
+        rootElement.classList.add('js', 'fonts-loading');
+        window.__finishAppLoading = () => {
+            rootElement.classList.remove('fonts-loading');
+            rootElement.classList.add('fonts-loaded');
+            window.__fontsLoadedFallbackTimeoutId = null;
+        };
+
+        const themeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        const updateTheme = () => {
+            rootElement.classList.toggle('dark', themeQuery.matches);
+            rootElement.classList.toggle('light', !themeQuery.matches);
+        };
+        updateTheme();
+        themeQuery.addEventListener('change', updateTheme);
+
+        if (window.__fontsLoadedFallbackTimeoutId) {
+            window.clearTimeout(window.__fontsLoadedFallbackTimeoutId);
+        }
+        window.__fontsLoadedFallbackTimeoutId = window.setTimeout(window.__finishAppLoading, 3600);
+    </script>
+    <link rel="stylesheet" href="/theme/light.css" />
+    <link rel="stylesheet" href="/theme/dark.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" href="/src/styles/loading.css"/>
+    <link rel="stylesheet" href="/src/styles/main.css" />
+    <script type="module" src="/src/main.js"></script>
+</head>
+<body>
+<div class="app-loading" aria-live="polite" aria-label="页面资源加载中">
+    <img class="app-loading__logo" src="/favicon.svg" alt="" aria-hidden="true"/>
+    <div class="app-loading__bar" aria-hidden="true">
+        <span class="app-loading__indicator"></span>
+    </div>
+</div>
+
+<header class="app-header">
+    <md-icon-button id="menu-btn" aria-label="导航菜单" aria-expanded="false" aria-controls="app-nav">
+        <md-icon aria-hidden="true">menu</md-icon>
+    </md-icon-button>
+    <span class="app-header__title" id="app-header-title">VRChat Data Hub</span>
+    <md-icon-button id="github-btn" aria-label="访问 GitHub" href="https://github.com/CQMHV/VRChat-Data-Hub"
+                    target="_blank" rel="noopener noreferrer">
+        <svg class="app-header__brand-icon" viewBox="0 0 19 19" aria-hidden="true">
+            <use href="/icons.svg#github-icon"></use>
+        </svg>
+    </md-icon-button>
+    <md-icon-button id="theme-panel-toggle-btn" aria-label="打开主题控制面板" aria-controls="theme-controls-panel" aria-expanded="false">
+        <md-icon aria-hidden="true">palette</md-icon>
+    </md-icon-button>
+</header>
+
+<div class="app-layout">
+    <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
+    <aside class="app-nav" id="app-nav" aria-label="工具导航">
+        <md-list aria-label="工具目录" id="nav-list">
+            <md-list-item type="link" href="/home" data-page="home" aria-current="page">
+                <md-icon slot="start" aria-hidden="true">home</md-icon>
+                <span slot="headline">首页</span>
+            </md-list-item>
+            <md-list-item type="link" href="/upload" data-page="upload">
+                <md-icon slot="start" aria-hidden="true">upload_file</md-icon>
+                <span slot="headline">上传中心</span>
+            </md-list-item>
+            <md-list-item type="link" href="/files" data-page="files">
+                <md-icon slot="start" aria-hidden="true">folder</md-icon>
+                <span slot="headline">文件库</span>
+            </md-list-item>
+            <md-list-item type="link" href="/jobs" data-page="jobs">
+                <md-icon slot="start" aria-hidden="true">pending_actions</md-icon>
+                <span slot="headline">任务中心</span>
+            </md-list-item>
+            <md-list-item type="link" href="/settings" data-page="settings">
+                <md-icon slot="start" aria-hidden="true">settings</md-icon>
+                <span slot="headline">设置</span>
+            </md-list-item>
+            <md-divider></md-divider>
+            <md-list-item type="link" href="/about" data-page="about">
+                <md-icon slot="start" aria-hidden="true">info</md-icon>
+                <span slot="headline">关于项目</span>
+            </md-list-item>
+        </md-list>
+    </aside>
+
+    <main class="app-main">
+        <div class="app-content" id="page-content"></div>
+    </main>
+</div>
+
+<section class="theme-panel" id="theme-controls-panel" hidden>
+    <div class="theme-panel__content">
+        <div class="theme-panel__title-row">
+            <h2 class="theme-panel__title">Theme Controls</h2>
+            <md-text-button id="theme-reset-btn">重置</md-text-button>
+        </div>
+        <div class="theme-card">
+            <label class="theme-card__label" for="theme-color-input">Hex Source Color</label>
+            <div class="theme-card__color-row">
+                <md-outlined-text-field id="theme-color-text" class="theme-card__hex-input" label="Hex"
+                                        value="#6cb6ff"></md-outlined-text-field>
+                <input type="color" id="theme-color-input" class="theme-card__picker" value="#6cb6ff"
+                       aria-label="选择主题色"/>
+            </div>
+        </div>
+        <div class="theme-sliders">
+            <div class="theme-slider-group">
+                <label class="theme-slider" for="theme-hue-input">
+                    <span>Hue</span>
+                    <md-slider id="theme-hue-input" min="0" max="360" step="1" value="0" labeled></md-slider>
+                    <span class="theme-slider__track theme-slider__track--hue"></span>
+                </label>
+            </div>
+            <div class="theme-slider-group">
+                <label class="theme-slider" for="theme-chroma-input">
+                    <span>Chroma</span>
+                    <md-slider id="theme-chroma-input" min="0" max="150" step="1" value="0" labeled></md-slider>
+                    <span class="theme-slider__track theme-slider__track--chroma"></span>
+                </label>
+            </div>
+            <div class="theme-slider-group">
+                <label class="theme-slider" for="theme-tone-input">
+                    <span>Tone</span>
+                    <md-slider id="theme-tone-input" min="0" max="100" step="1" value="50" labeled></md-slider>
+                    <span class="theme-slider__track theme-slider__track--tone"></span>
+                </label>
+            </div>
+        </div>
+        <div class="theme-schemes">
+            <md-text-button id="theme-scheme-toggle-btn" aria-controls="theme-schemes-list" aria-expanded="false">
+                <span id="theme-scheme-toggle-label">配色方案：活力</span>
+                <md-icon slot="icon">palette</md-icon>
+            </md-text-button>
+            <div id="theme-schemes-list" role="radiogroup" aria-label="配色方案" hidden>
+                <label class="theme-scheme-option">
+                    <md-radio name="theme-scheme" value="tonal-spot"></md-radio>
+                    <span>调性点缀</span>
+                </label>
+                <label class="theme-scheme-option">
+                    <md-radio name="theme-scheme" value="fidelity"></md-radio>
+                    <span>高保真</span>
+                </label>
+                <label class="theme-scheme-option">
+                    <md-radio name="theme-scheme" value="monochrome"></md-radio>
+                    <span>单色</span>
+                </label>
+                <label class="theme-scheme-option">
+                    <md-radio name="theme-scheme" value="neutral"></md-radio>
+                    <span>中性</span>
+                </label>
+                <label class="theme-scheme-option">
+                    <md-radio name="theme-scheme" value="vibrant" checked></md-radio>
+                    <span>活力</span>
+                </label>
+                <label class="theme-scheme-option">
+                    <md-radio name="theme-scheme" value="expressive"></md-radio>
+                    <span>表现力</span>
+                </label>
+                <label class="theme-scheme-option">
+                    <md-radio name="theme-scheme" value="content"></md-radio>
+                    <span>内容主题</span>
+                </label>
+                <label class="theme-scheme-option">
+                    <md-radio name="theme-scheme" value="rainbow"></md-radio>
+                    <span>彩虹</span>
+                </label>
+                <label class="theme-scheme-option">
+                    <md-radio name="theme-scheme" value="fruit-salad"></md-radio>
+                    <span>果缤纷</span>
+                </label>
+            </div>
+        </div>
+        <md-outlined-segmented-button-set class="theme-mode-toggle" aria-label="主题模式">
+            <md-outlined-segmented-button data-theme-mode="light" aria-label="浅色模式">
+                <md-icon slot="icon">light_mode</md-icon>
+            </md-outlined-segmented-button>
+            <md-outlined-segmented-button data-theme-mode="auto" aria-label="自动模式">
+                <md-icon slot="icon">brightness_auto</md-icon>
+            </md-outlined-segmented-button>
+            <md-outlined-segmented-button data-theme-mode="dark" aria-label="深色模式">
+                <md-icon slot="icon">dark_mode</md-icon>
+            </md-outlined-segmented-button>
+        </md-outlined-segmented-button-set>
+    </div>
+</section>
+</body>
+</html>
