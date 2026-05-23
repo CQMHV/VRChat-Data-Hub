@@ -1,6 +1,9 @@
 @import '@fontsource/noto-sans/400.css';
 @import '@fontsource/noto-sans/500.css';
 @import '@fontsource/noto-sans/700.css';
+@import '@fontsource/noto-sans-mono/400.css';
+@import '@fontsource/noto-sans-mono/500.css';
+@import '@fontsource/noto-sans-mono/700.css';
 @import '@fontsource/noto-sans-sc/400.css';
 @import '@fontsource/noto-sans-sc/500.css';
 @import '@fontsource/noto-sans-sc/700.css';
@@ -55,8 +58,9 @@ md-filled-tonal-button:not(:defined) {
     --app-docs-markdown-line-height: var(--app-body-line-height);
     --app-docs-heading-font-weight: 500;
     --app-docs-heading-margin-top: 1.5em;
+    --app-code-font-family: "Noto Sans Mono", "Noto Sans SC", monospace;
     --app-code-block-padding: 16px;
-    --app-code-block-font-family: "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+    --app-code-block-font-family: var(--app-code-font-family);
     --app-code-block-font-size: 0.95em;
     --app-code-block-line-height: 1.55;
     --app-motion-duration-medium: 0.3s;
@@ -603,7 +607,7 @@ body {
 }
 
 code {
-    font-family: inherit;
+    font-family: var(--app-code-font-family);
     display: inline;
     padding: 0.1em 0.42em;
     border-radius: var(--app-shape-corner-small);
