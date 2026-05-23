@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="color-scheme" content="light dark"/>
+    <meta name="robots" content="noindex, follow"/>
+    <meta name="theme-color" content="#f8f9ff" media="(prefers-color-scheme: light)"/>
+    <meta name="theme-color" content="#101418" media="(prefers-color-scheme: dark)"/>
+    <meta name="description" content="VRChat Data Hub 正在启动。"/>
+    <link rel="manifest" href="/manifest.json"/>
+    <title>VRChat Data Hub</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+            --bg: rgb(248 249 255);
+            --logo-size: 96px;
+            --logo-offset: 18px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: rgb(16 20 24);
+            }
+        }
+
+        html,
+        body {
+            min-height: 100%;
+            margin: 0;
+            background: var(--bg);
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .logo {
+            display: block;
+            width: var(--logo-size);
+            height: var(--logo-size);
+            object-fit: contain;
+            transform: translateY(calc(var(--logo-offset) * -1));
+        }
+    </style>
+</head>
+<body>
+<img class="logo" src="/favicon.svg" alt="VRChat Data Hub"/>
+<script src="/javascript/register-sw.js" defer></script>
+<script>
+    window.addEventListener('pageshow', () => {
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                location.replace('/');
+            }, 600);
+        });
+    });
+</script>
+</body>
+</html>

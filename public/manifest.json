@@ -1,0 +1,44 @@
+{
+    "name": "VRChat Data Hub",
+    "short_name": "VRCDH",
+    "description": "面向 VRChat 资源上传、转存和管理的数据中心。",
+    "lang": "zh-CN",
+    "dir": "ltr",
+    "id": "/pwa-loading?source=pwa",
+    "start_url": "/pwa-loading?source=pwa",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "background_color": "#f8f9ff",
+    "theme_color": "#6cb6ff",
+    "categories": [
+        "utilities",
+        "productivity"
+    ],
+    "icons": [
+        {
+            "src": "/pwa-icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/pwa-icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/pwa-icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/pwa-icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}
