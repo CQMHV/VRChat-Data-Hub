@@ -1,6 +1,6 @@
-const CACHE_NAME = 'vrcdh-pwa-cache-v1';
+const CACHE_NAME = 'vrcdh-pwa-cache-v2';
 const STARTUP_URL = '/pwa-loading';
-const STARTUP_PAGE_URL = '/pwa-loading.html';
+const STARTUP_PAGE_URL = STARTUP_URL;
 
 self.addEventListener('install', (event) => {
     event.waitUntil((async () => {

@@ -581,6 +581,26 @@ body {
     color: var(--md-sys-color-on-surface-variant);
 }
 
+.docs-markdown a {
+    color: var(--md-sys-color-primary);
+    text-decoration: underline;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.16em;
+}
+
+.docs-markdown a:hover {
+    color: color-mix(in srgb, var(--md-sys-color-primary) 86%, var(--md-sys-color-on-surface));
+}
+
+.docs-markdown h1 a,
+.docs-markdown h2 a,
+.docs-markdown h3 a {
+    all: unset;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+}
+
 .docs-markdown ul,
 .docs-markdown ol {
     margin-block: var(--app-body-block-margin-block);
@@ -590,6 +610,14 @@ body {
 
 .docs-markdown li {
     margin-block: var(--app-body-list-item-margin-block);
+}
+
+.docs-markdown img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 1.2em auto;
+    border-radius: var(--app-shape-corner-medium);
 }
 
 .docs-markdown pre {
