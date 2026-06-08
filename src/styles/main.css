@@ -28,7 +28,6 @@ md-filled-tonal-button:not(:defined) {
     --app-header-title-font-size: 22px;
     --app-header-title-font-weight: 400;
     --app-nav-width: 300px;
-    --app-nav-padding: 12px;
     --app-nav-divider-margin-block: 8px;
     --app-shell-gap: 12px;
     --app-content-padding: 32px;
@@ -46,18 +45,6 @@ md-filled-tonal-button:not(:defined) {
     --app-card-emphasis-content-color: var(--md-sys-color-on-primary-container);
     --app-card-title-font-weight: 400;
     --app-card-actions-margin-top: 24px;
-    --app-docs-tree-padding-block: 8px;
-    --app-docs-tree-header-margin-bottom: 8px;
-    --app-docs-tree-header-font-size: 14px;
-    --app-docs-tree-children-indent: 12px;
-    --app-docs-tree-group-margin-block: 6px;
-    --app-docs-tree-item-margin-block: 4px;
-    --app-docs-tree-item-padding-block: 8px;
-    --app-docs-tree-item-padding-inline: 10px;
-    --app-docs-markdown-margin-top: 24px;
-    --app-docs-markdown-line-height: var(--app-body-line-height);
-    --app-docs-heading-font-weight: 500;
-    --app-docs-heading-margin-top: 1.5em;
     --app-code-font-family: "Noto Sans Mono", "Noto Sans SC", monospace;
     --app-code-block-padding: 16px;
     --app-code-block-font-family: var(--app-code-font-family);
@@ -124,7 +111,7 @@ md-filled-tonal-button:not(:defined) {
 
     .app-nav,
     .theme-panel,
-    .docs-markdown pre {
+    .app-content pre {
         scrollbar-color: var(--md-sys-color-primary) transparent;
         scrollbar-width: thin;
     }
@@ -132,7 +119,7 @@ md-filled-tonal-button:not(:defined) {
     .app-nav::-webkit-scrollbar,
     .app-main::-webkit-scrollbar,
     .theme-panel::-webkit-scrollbar,
-    .docs-markdown pre::-webkit-scrollbar {
+    .app-content pre::-webkit-scrollbar {
         width: var(--app-scrollbar-size);
         height: var(--app-scrollbar-size);
         background: transparent;
@@ -141,13 +128,9 @@ md-filled-tonal-button:not(:defined) {
     .app-nav::-webkit-scrollbar-thumb,
     .app-main::-webkit-scrollbar-thumb,
     .theme-panel::-webkit-scrollbar-thumb,
-    .docs-markdown pre::-webkit-scrollbar-thumb {
+    .app-content pre::-webkit-scrollbar-thumb {
         background-color: var(--md-sys-color-primary);
         border-radius: calc(var(--app-scrollbar-size) / 2);
-    }
-
-    .app-nav {
-        padding-inline-end: calc(var(--app-nav-padding) - var(--app-scrollbar-size));
     }
 
     .app-main {
@@ -244,7 +227,6 @@ body {
     min-width: var(--app-nav-width);
     max-width: var(--app-nav-width);
     margin: 0;
-    padding: var(--app-nav-padding);
     border-radius: var(--app-shape-corner-radius);
     background: var(--md-sys-color-surface-container);
     overflow-y: auto;
@@ -268,8 +250,7 @@ body {
     background: transparent;
 }
 
-.app-nav md-list[hidden],
-.app-nav .docs-tree[hidden] {
+.app-nav md-list[hidden] {
     display: none !important;
 }
 
@@ -331,8 +312,7 @@ body {
 }
 
 .app-content > p,
-.card p,
-.docs-markdown p {
+.card p {
     margin-block: var(--app-body-block-margin-block);
     line-height: var(--app-body-line-height);
 }
@@ -345,13 +325,19 @@ body {
     line-height: var(--app-body-line-height);
 }
 
+.app-content > p {
+    color: var(--md-sys-color-on-surface-variant);
+}
+
 .app-content li {
     margin-block: var(--app-body-list-item-margin-block);
 }
 
-.app-content > h2 {
+.app-content > h2,
+.app-content > h3 {
     margin-top: var(--app-section-title-margin-top);
     font-weight: var(--app-card-title-font-weight);
+    color: var(--md-sys-color-on-surface);
 }
 
 /* ── Card ────────────────────────────────────────── */
@@ -398,6 +384,7 @@ body {
 }
 
 .card > p:last-child,
+.card > h2:last-child,
 .card > ul:last-child,
 .card > ol:last-child {
     margin-block-end: 0;
@@ -503,116 +490,27 @@ body {
     --md-filled-tonal-button-label-text-color: var(--app-content-accent-label-color);
 }
 
-.docs-tree {
-    margin-inline: var(--app-shell-gap);
-    padding: var(--app-docs-tree-padding-block) 0;
-}
-
-.docs-tree__header {
-    margin: 0 0 var(--app-docs-tree-header-margin-bottom);
-    font-size: var(--app-docs-tree-header-font-size);
-    color: var(--md-sys-color-on-surface-variant);
-}
-
-.docs-tree__children {
-    margin-left: var(--app-docs-tree-children-indent);
-}
-
-.docs-tree__group {
-    margin: var(--app-docs-tree-group-margin-block) 0;
-}
-
-.docs-tree__group > summary {
-    cursor: pointer;
-    list-style: none;
-    color: var(--md-sys-color-on-surface);
-    border-radius: var(--app-shape-corner-full);
-    padding: var(--app-docs-tree-item-padding-block) var(--app-docs-tree-item-padding-inline);
-}
-
-.docs-tree__group > summary::-webkit-details-marker {
-    display: none;
-}
-
-.docs-tree__group > summary:hover {
-    background: var(--md-sys-color-surface-container-highest);
-}
-
-.docs-tree__link {
-    display: block;
-    margin: var(--app-docs-tree-item-margin-block) 0;
-    padding: var(--app-docs-tree-item-padding-block) var(--app-docs-tree-item-padding-inline);
-    border-radius: var(--app-shape-corner-full);
-    color: var(--md-sys-color-on-surface);
-    text-decoration: none;
-}
-
-.docs-tree__link:hover {
-    background: var(--md-sys-color-surface-container-highest);
-}
-
-.docs-tree__link[aria-current='page'] {
-    background: var(--md-sys-color-surface-container-highest);
-}
-
-.docs-tree__home {
-    margin-bottom: var(--app-docs-tree-header-margin-bottom);
-}
-
-.docs-tree__empty {
-    color: var(--md-sys-color-on-surface-variant);
-}
-
-.docs-markdown {
-    margin-top: var(--app-docs-markdown-margin-top);
-    line-height: var(--app-docs-markdown-line-height);
-}
-
-.docs-markdown h1,
-.docs-markdown h2,
-.docs-markdown h3 {
-    color: var(--md-sys-color-on-surface);
-    font-weight: var(--app-docs-heading-font-weight);
-    margin-top: var(--app-docs-heading-margin-top);
-}
-
-.docs-markdown p,
-.docs-markdown li {
-    color: var(--md-sys-color-on-surface-variant);
-}
-
-.docs-markdown a {
+.app-content a {
     color: var(--md-sys-color-primary);
     text-decoration: underline;
     text-decoration-thickness: 0.08em;
     text-underline-offset: 0.16em;
 }
 
-.docs-markdown a:hover {
+.app-content a:hover {
     color: color-mix(in srgb, var(--md-sys-color-primary) 86%, var(--md-sys-color-on-surface));
 }
 
-.docs-markdown h1 a,
-.docs-markdown h2 a,
-.docs-markdown h3 a {
+.app-content > h2 a,
+.app-content > h3 a,
+.card__title a {
     all: unset;
     color: inherit;
     font: inherit;
     cursor: pointer;
 }
 
-.docs-markdown ul,
-.docs-markdown ol {
-    margin-block: var(--app-body-block-margin-block);
-    padding-inline-start: var(--app-body-list-padding-inline-start);
-    line-height: var(--app-body-line-height);
-}
-
-.docs-markdown li {
-    margin-block: var(--app-body-list-item-margin-block);
-}
-
-.docs-markdown img {
+.app-content img {
     display: block;
     max-width: 100%;
     height: auto;
@@ -620,7 +518,7 @@ body {
     border-radius: var(--app-shape-corner-medium);
 }
 
-.docs-markdown pre {
+.app-content pre {
     --app-content-accent-container-color: var(--app-card-emphasis-container-color);
     --app-content-accent-label-color: var(--app-card-emphasis-content-color);
     overflow-x: auto;
@@ -648,7 +546,7 @@ code {
     overflow-wrap: anywhere;
 }
 
-.docs-markdown pre > code {
+.app-content pre > code {
     display: block;
     color: inherit;
     font: inherit;

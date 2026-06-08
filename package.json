@@ -4,8 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "prebuild": "node scripts/generate-sitemap.mjs",
     "dev": "vite",
     "build": "vite build",
+    "generate:pwa-icons": "node scripts/generate-pwa-icons.mjs",
+    "generate:sitemap": "node scripts/generate-sitemap.mjs",
     "preview": "vite preview",
     "preview:static": "node scripts/serve-dist.mjs"
   },

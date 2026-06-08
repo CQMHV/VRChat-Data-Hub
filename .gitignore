@@ -4,3 +4,4 @@ dist/
 .reference-*/
 .env
 .env.*
+public/sitemap.xml

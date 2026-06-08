@@ -52,7 +52,7 @@ export function createNavigationController({elements, mobileQuery}) {
             navBackdrop.classList.toggle('mobile-open');
             if (appNav.classList.contains('mobile-open')) {
                 requestAnimationFrame(() => {
-                    const firstNavButton = appNav.querySelector('md-list-item');
+                    const firstNavButton = appNav.querySelector('#nav-list:not([hidden]) md-list-item');
                     firstNavButton?.focus();
                 });
             }
